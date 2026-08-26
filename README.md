@@ -29,16 +29,38 @@
 
 ## 2. Публикация на GitHub Pages
 
-Репозиторий в этой папке готов: ветка `main`, всё закоммичено, `origin` прописан на `github.com/gvyatkin-maker/gvyatkin-maker.github.io`. Сама страница лежит в подпапке `buynow/`, поэтому сайт откроется по адресу с этой подпапкой.
+Репозиторий в этой папке готов: ветка `main`, всё закоммичено. Страница лежит в подпапке `buynow/`, поэтому сайт откроется по адресу с этой подпапкой.
 
-Откройте Терминал на Mac и выполните две строки:
+Авторизация сделана через **deploy key**: SSH-ключ, привязанный к одному этому репозиторию. Ни пароль, ни персональный токен не нужны. Репозиторий уже переключён на SSH-адрес, и в настройках git прописано, каким ключом пользоваться.
 
-```bash
-cd ~/Claude/Projects/GRI-Investice/landing-baynov
-git push -u origin main
-```
+### Разовая настройка
 
-Если Терминал спросит логин и пароль, в поле пароля вводится не пароль от GitHub, а персональный токен (Settings → Developer settings → Personal access tokens). Проще один раз поставить GitHub CLI (`brew install gh`, затем `gh auth login`), тогда авторизация запомнится.
+1. Создайте ключ. В Терминале на Mac:
+
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/buynow_deploy -N "" -C "buynow deploy key"
+   ```
+
+   Никакой авторизации на этом шаге не требуется, ключ создаётся локально.
+
+2. Скопируйте публичную часть в буфер обмена:
+
+   ```bash
+   pbcopy < ~/.ssh/buynow_deploy.pub
+   ```
+
+3. В репозитории на GitHub откройте **Settings → Deploy keys → Add deploy key**. Title любой, например `mac`. В поле Key вставьте скопированное. Обязательно поставьте галочку **Allow write access**, иначе push будет отклонён. Сохраните.
+
+4. Отправьте:
+
+   ```bash
+   cd ~/Claude/Projects/GRI-Investice/landing-baynov
+   git push -u origin main
+   ```
+
+   При первом подключении ssh спросит про подлинность хоста, ответьте `yes`.
+
+### Дальше
 
 После push загляните в **Settings → Pages**. Имя `логин.github.io` означает пользовательский сайт, и GitHub обычно включает Pages сам. Если в *Source* пусто, выберите **Deploy from a branch**, ветка `main`, папка `/ (root)`, Save. Папка остаётся корневой: подпапку `buynow` выбирать не нужно, она просто станет частью адреса.
 
@@ -57,6 +79,15 @@ git add -A
 git commit -m "что поменяли"
 git push
 ```
+
+### Если захотите вернуться на HTTPS с токеном
+
+```bash
+git config --unset core.sshCommand
+git remote set-url origin https://github.com/gvyatkin-maker/gvyatkin-maker.github.io.git
+```
+
+Тогда при push в поле Username вводится `gvyatkin-maker`, а в поле Password — персональный токен с правом Contents: Read and write (Settings → Developer settings → Personal access tokens). Пароль от аккаунта GitHub по HTTPS не принимает с 2021 года.
 
 ## 3. Свой домен
 
