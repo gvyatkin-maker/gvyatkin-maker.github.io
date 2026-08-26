@@ -27,7 +27,7 @@
 
 ## 2. Публикация на GitHub Pages
 
-Репозиторий в этой папке уже готов: ветка `main`, все файлы закоммичены, `origin` прописан на `github.com/gvyatkin-maker/gvyatkin-maker.buynowsystem.io`. Репозиторий на GitHub пустой, поэтому push пройдёт без конфликтов.
+Репозиторий в этой папке уже готов: ветка `main`, все файлы закоммичены, `origin` прописан на `github.com/gvyatkin-maker/gvyatkin-maker.github.io`. На GitHub он пустой, поэтому push пройдёт без конфликтов.
 
 Откройте Терминал на Mac и выполните две строки:
 
@@ -38,13 +38,13 @@ git push -u origin main
 
 Если Терминал спросит логин и пароль, в поле пароля вводится не пароль от GitHub, а персональный токен (Settings → Developer settings → Personal access tokens). Проще один раз поставить GitHub CLI (`brew install gh`, затем `gh auth login`), тогда авторизация запомнится.
 
-После push откройте **Settings → Pages** в репозитории: в *Source* выберите **Deploy from a branch**, ветка `main`, папка `/ (root)`, Save. Через одну-две минуты сайт открывается по адресу:
+После push загляните в **Settings → Pages**. Имя `логин.github.io` означает пользовательский сайт, и GitHub обычно включает Pages сам. Если в *Source* пусто, выберите **Deploy from a branch**, ветка `main`, папка `/ (root)`, Save.
+
+Через одну-две минуты сайт открывается в корне адреса:
 
 ```
-https://gvyatkin-maker.github.io/gvyatkin-maker.buynowsystem.io/
+https://gvyatkin-maker.github.io/
 ```
-
-Это адрес проектного сайта, с подпапкой. Все ссылки на файлы в вёрстке относительные, поэтому подпапка ничему не мешает.
 
 Все следующие правки выкатываются тремя командами из той же папки:
 
@@ -56,17 +56,19 @@ git push
 
 ## 3. Свой домен
 
-Название репозитория повторяет домен `gvyatkin-maker.buynowsystem.io`, но сам домен пока не подключён, и это правильный порядок: если указать домен в Pages раньше, чем настроен DNS, сайт станет недоступен и по адресу github.io тоже.
+Пока сайт живёт на `gvyatkin-maker.github.io`. Домен подключается позже, и порядок важен: если указать домен в Pages раньше, чем настроен DNS, сайт станет недоступен и по адресу github.io тоже.
 
 Когда домен будет готов:
 
-1. У регистратора `buynowsystem.io` добавьте CNAME-запись:
+1. У регистратора добавьте DNS-запись.
+
+   Для поддомена (например `go.buynowsystem.io`) одна CNAME-запись:
 
    ```
-   CNAME   gvyatkin-maker   gvyatkin-maker.github.io.
+   CNAME   go   gvyatkin-maker.github.io.
    ```
 
-   Для домена без поддомена (apex, вида `buynowsystem.io`) вместо этого нужны четыре A-записи:
+   Для домена без поддомена (apex, вида `buynowsystem.io`) четыре A-записи:
 
    ```
    A   @   185.199.108.153
