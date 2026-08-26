@@ -27,29 +27,32 @@
 
 ## 2. Публикация на GitHub Pages
 
-### Через веб-интерфейс (проще)
+Репозиторий в этой папке уже создан и закоммичен: ветка `main`, два коммита, все файлы внутри. Осталось привязать его к вашему репозиторию на GitHub и отправить.
 
-1. Создайте новый репозиторий, например `baynov-landing`. Публичный.
-2. **Add file → Upload files**, перетащите `index.html` (и `og.jpg`, `photo.jpg`, если они есть). Commit.
-3. **Settings → Pages**.
-4. В *Source* выберите **Deploy from a branch**, ветка `main`, папка `/ (root)`. Save.
-5. Через 1–2 минуты сайт доступен по адресу `https://ВАШ_ЛОГИН.github.io/baynov-landing/`.
-
-### Через командную строку
+Откройте Терминал на Mac и выполните, подставив свой логин GitHub:
 
 ```bash
-cd путь/к/папке/landing-baynov
-git init
-git add .
-git commit -m "landing v1"
-git branch -M main
-git remote add origin https://github.com/ВАШ_ЛОГИН/baynov-landing.git
+cd ~/Claude/Projects/GRI-Investice/landing-baynov
+git remote add origin https://github.com/ВАШ_ЛОГИН/ВАШ_ЛОГИН.github.io.git
 git push -u origin main
 ```
 
-Дальше пункты 3–5 из списка выше.
+Если push отклонён с сообщением про `rejected` или `non-fast-forward`, значит в репозитории на GitHub уже есть свои коммиты. Подтяните их и отправьте снова:
 
----
+```bash
+git pull --rebase --allow-unrelated-histories origin main
+git push -u origin main
+```
+
+Дальше **Settings → Pages**: в *Source* должно стоять **Deploy from a branch**, ветка `main`, папка `/ (root)`. Через одну-две минуты сайт открывается по адресу `https://ВАШ_ЛОГИН.github.io/`.
+
+Все следующие правки выкатываются тремя командами из той же папки:
+
+```bash
+git add -A
+git commit -m "что поменяли"
+git push
+```
 
 ## 3. Свой домен
 
